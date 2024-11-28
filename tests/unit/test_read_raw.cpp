@@ -1,11 +1,10 @@
 #include <cstdint>
-#include <iostream>
 #include <string>
 #include <catch2/catch_test_macros.hpp>
 #include "../test_utils.hpp"
 #include "read_raw.hpp"
+#include "exceptions.hpp"
 
-std::string example_image = "../assets/example_images/IMG_1558.CR3";
 
 TEST_CASE( "Testing RawImageReader", "[read_image]" ) {
     RawImageReader reader;

@@ -18,8 +18,7 @@ typedef struct {
 /**
  * A classic and simple demosaic algorithm
  *
- * This function performs a classic and simple demosaic algorithm,
- * like it was initially proposed in the early eighties.
+ * This function performs a classic and simple demosaic algorithm.
  *
 */
 

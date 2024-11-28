@@ -7,7 +7,7 @@
 #include "libraw_const.h"
 #include "read_raw.hpp"
 #include "filesystem.hpp"
-
+#include "exceptions.hpp"
 
 
 
@@ -44,6 +44,27 @@ void RawImageReader::_translate_status_into_exception(int status) {
 }
 
 
+/**
+ * Read the Raw image data.
+ *
+ * You can use this function to read the raw image data from your Raw image file.
+ * A `ImageData` object is returned as result.
+*/
+RawImageData RawImageReader::read_raw_data() {
+    RawImageData data;
+    int status = m_raw_processor.unpack();
+    if (status != LIBRAW_SUCCESS) {
+        throw ExceptionUnableToUnpack();
+    }
+    data.data = m_raw_processor.imgdata.rawdata.raw_image;
+    data.length = m_raw_processor.imgdata.rawdata.sizes.width;
+    data.width = m_raw_processor.imgdata.rawdata.sizes.width;
+    data.height = m_raw_processor.imgdata.rawdata.sizes.height;
+
+    return data;
+}
+
+
 
 /**
  * Read the Raw image thumbnail.
@@ -63,14 +84,13 @@ ImageData RawImageReader::read_thumb_data() {
     ImageData data;
     int status = m_raw_processor.unpack_thumb();
     if (status != LIBRAW_SUCCESS) {
-        throw ExceptionUnableToUnpackThumb();
+        throw ExceptionUnableToUnpack();
     }
     libraw_processed_image_t* thumb = m_raw_processor.dcraw_make_mem_thumb();
     if (thumb == NULL) {
-        throw ExceptionUnableToUnpackThumb();
+        throw ExceptionUnableToUnpack();
     }
 
-    std::cout << thumb->data[0] << "\n";
     data.data = (unsigned char*)m_raw_processor.imgdata.thumbnail.thumb;
     data.length = m_raw_processor.imgdata.thumbnail.tlength;
     data.width = m_raw_processor.imgdata.thumbnail.twidth;
@@ -102,19 +122,3 @@ ImageOrientation image_orientation(uint32_t width, uint32_t height) {
 
 
 
-
-ExceptionFileNotFound::ExceptionFileNotFound()
-{
-}
-
-const char* ExceptionFileNotFound::what(){
-    return "[ERROR]: Input file not found in the filesystem!\n";
-}
-
-ExceptionUnableToUnpackThumb::ExceptionUnableToUnpackThumb()
-{
-}
-
-const char* ExceptionUnableToUnpackThumb::what(){
-    return "[ERROR]: Unable to unpack the data of the image thumbnail.";
-}

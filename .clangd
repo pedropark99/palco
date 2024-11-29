@@ -1,8 +1,0 @@
-CompileFlags:
-  Add:
-    - "-I./include/"
-    - "-I../include/"
-    - "-I../../include/"
-    - "-I/usr/include/"
-    - "-I/usr/local/include/libraw"
-    - "-I/usr/local/include/catch2/"

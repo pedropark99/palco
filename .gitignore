@@ -1,2 +1,7 @@
 build/
 tests/play/
+
+
+# Added by cargo
+
+/target

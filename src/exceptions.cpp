@@ -16,3 +16,12 @@ ExceptionUnableToUnpack::ExceptionUnableToUnpack()
 const char* ExceptionUnableToUnpack::what(){
     return "[ERROR]: Unable to unpack the data of the image thumbnail.";
 }
+
+
+ExceptionUnableToProcess::ExceptionUnableToProcess()
+{
+}
+
+const char* ExceptionUnableToProcess::what(){
+    return "[ERROR]: Unable to dcraw process the data of the image.";
+}

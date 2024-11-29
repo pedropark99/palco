@@ -1,4 +1,6 @@
 #include <cstdint>
+#include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -25,8 +27,10 @@
 */
 RawImageProperties RawImageReader::get_image_properties() {
     RawImageProperties properties;
-    properties.path = m_path;
-    properties.filename = file_name(as_path(m_path));
+    std::string filename = file_name(as_path(m_path));
+    properties.path = (char*)m_path.c_str();
+    properties.filename = (char*)malloc(filename.length() * sizeof(char));
+    strcpy(properties.filename, filename.c_str());
     properties.width = m_raw_processor.imgdata.sizes.width;
     properties.height = m_raw_processor.imgdata.sizes.height;
     properties.orientation = image_orientation(properties.width, properties.height);
@@ -56,7 +60,12 @@ RawImageData RawImageReader::read_raw_data() {
     if (status != LIBRAW_SUCCESS) {
         throw ExceptionUnableToUnpack();
     }
-    data.data = m_raw_processor.imgdata.rawdata.raw_image;
+    status = m_raw_processor.dcraw_process();
+    if (status != LIBRAW_SUCCESS) {
+        throw ExceptionUnableToProcess();
+    }
+
+    data.image = m_raw_processor.imgdata.image;
     data.length = m_raw_processor.imgdata.rawdata.sizes.width;
     data.width = m_raw_processor.imgdata.rawdata.sizes.width;
     data.height = m_raw_processor.imgdata.rawdata.sizes.height;

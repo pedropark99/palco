@@ -9,6 +9,7 @@ set(TESTS_SOURCES_LIST
 find_package(Catch2)
 if (Catch2_FOUND)
     add_executable(palco_tests ${TESTS_SOURCES_LIST})
+
     target_link_libraries(palco_tests PRIVATE Catch2::Catch2)
     target_link_libraries(palco_tests PRIVATE palco)
     target_include_directories(palco_tests PUBLIC ../include/)

@@ -11,7 +11,8 @@ TEST_CASE( "Testing RawImageReader", "[read_image]" ) {
     reader.open_file(example_image);
     RawImageProperties props = reader.get_image_properties();
     REQUIRE(props.path == example_image);
-    REQUIRE(props.filename == "IMG_1558.CR3");
+    std::string filename = std::string(props.filename);
+    REQUIRE(filename == "IMG_1558.CR3");
     REQUIRE(props.width == 6264);
     REQUIRE(props.height == 4180);
     REQUIRE(props.orientation == ImageOrientation::HORIZONTAL);

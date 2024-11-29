@@ -11,3 +11,10 @@ public:
     ExceptionUnableToUnpack();
     const char* what();
 };
+
+
+class ExceptionUnableToProcess: public std::exception {
+public:
+    ExceptionUnableToProcess();
+    const char* what();
+};

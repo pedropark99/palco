@@ -9,12 +9,6 @@
 
 TEST_CASE("Test basic bilinear demosaic", "[demosaic]") {
     
-    std::cout
-        << example_raw_image_data.length
-        << " | "
-        << example_raw_image_data.width
-        << " | "
-        << example_raw_image_data.height
-        << std::endl;
+    bilinear_demosaic(example_raw_image_data);
 
 }
